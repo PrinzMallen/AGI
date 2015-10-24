@@ -16,6 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import de.hsmannheim.gameoflife.controller.GameController;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
@@ -23,16 +26,21 @@ public class MainView {
 	private JFrame mainFrame;
 	private JButton[][] fieldArray;
 	private static final int SIZEOFCELL = 10;
-
-	public MainView(int widthOfField, int heightOfField) {
+	private GameController gameController;
+	
+	public MainView(GameController gameController) {
+		this.gameController = gameController;
+		gameController.generateGameField();
+		int widthOfField = gameController.getField().getFieldData().length;
+		int heightOfField = gameController.getField().getFieldData()[0].length;
 		setFieldSize(widthOfField, heightOfField);
 		prepareGUI(widthOfField, heightOfField);
 	}
 
-	public static void main(String[] args) {
-		MainView mainView = new MainView(9, 9);
-
-	}
+//	public static void main(String[] args) {
+//		MainView mainView = new MainView(9, 9);
+//
+//	}
 
 	private void setFieldSize(int widthOfField, int heightOfField) {
 		fieldArray = new JButton[widthOfField][heightOfField];
@@ -86,8 +94,11 @@ public class MainView {
 		JButton cellButton = fieldArray[x][y];
 		if (cellButton.getBackground() == Color.GREEN) {
 			cellButton.setBackground(Color.WHITE);
-		} else
+			gameController.changeField(x, y, 0);
+		} else {
 			cellButton.setBackground(Color.GREEN);
+			gameController.changeField(x, y, 1);
+		}
 		cellButton.setOpaque(true);
 	}
 }
