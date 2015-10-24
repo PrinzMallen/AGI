@@ -16,6 +16,7 @@ public class Main {
     public static void main(String[] argu){
     	GameController gameController = new GameController();
         MainView mainView = new MainView(gameController);
+    	gameController.addObserver(mainView);
         
     }
 }
