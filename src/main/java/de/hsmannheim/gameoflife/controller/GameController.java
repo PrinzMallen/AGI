@@ -11,7 +11,7 @@ public class GameController {
 
     protected GridField field;
 
-    public void startGame() {
+    public GridField startGame() {
         if (field != null) {
             int numberOfFields = field.getFieldData().length * field.getFieldData()[0].length;
             int numberOfGeneratedData = (int) (numberOfFields * 0.1);
@@ -26,7 +26,7 @@ public class GameController {
             }
 
         }
-
+        return field;
     }
 
     public void stopGame() {
