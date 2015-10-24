@@ -21,21 +21,19 @@ public class GameController extends Observable {
     private List<Observer> observers = new ArrayList<>();
 
     public void startGame() {
-        if (automatedGame == null) {
-            automatedGame = new Thread() {
-                @Override
-                public void run() {
-                    while (!super.isInterrupted()) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            // Ignore
-                        }
-                        doNextIterativeStep();
+        automatedGame = new Thread() {
+            @Override
+            public void run() {
+                while (!super.isInterrupted()) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        // Ignore
                     }
+                    doNextIterativeStep();
                 }
-            };
-        }
+            }
+        };
 
         automatedGame.start();
     }
