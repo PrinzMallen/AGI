@@ -16,6 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import de.hsmannheim.gameoflife.controller.GameController;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
@@ -23,38 +26,48 @@ public class MainView {
 	private JFrame mainFrame;
 	private JButton[][] fieldArray;
 	private static final int SIZEOFCELL = 10;
-
-	public MainView(int widthOfField, int heightOfField) {
+	private GameController gameController;
+	
+	public MainView(GameController gameController) {
+		this.gameController = gameController;
+		gameController.generateGameField();
+		int widthOfField = gameController.getField().getFieldData().length;
+		int heightOfField = gameController.getField().getFieldData()[0].length;
 		setFieldSize(widthOfField, heightOfField);
 		prepareGUI(widthOfField, heightOfField);
 	}
 
-	public static void main(String[] args) {
-		MainView mainView = new MainView(9, 9);
-
-	}
+//	public static void main(String[] args) {
+//		MainView mainView = new MainView(9, 9);
+//
+//	}
 
 	private void setFieldSize(int widthOfField, int heightOfField) {
 		fieldArray = new JButton[widthOfField][heightOfField];
-		for (int i = 0; i < widthOfField; i++) {
-			for (int j = 0; j < heightOfField; j++) {
-				final JButton tempButton = new JButton();
+		for (int y = 0; y < widthOfField; y++) {
+			for (int x = 0; x < heightOfField; x++) {
+				JButton tempButton = new JButton();
 				tempButton.setSize(SIZEOFCELL, SIZEOFCELL);
-				tempButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (tempButton.getBackground() == Color.GREEN) {
-							tempButton.setBackground(Color.WHITE);
-						} else
-							tempButton.setBackground(Color.GREEN);
-						tempButton.setOpaque(true);
-					}
-				});
+				tempButton.addActionListener(new CellActionListener(x, y));
 				tempButton.setBackground(Color.WHITE);
 				tempButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 				tempButton.setOpaque(true);
-				fieldArray[i][j] = tempButton;
+				fieldArray[x][y] = tempButton;
 			}
+		}
+	}
+	
+	private class CellActionListener implements ActionListener {
+		private int x;
+		private int y;
+		public CellActionListener(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			cellClicked(x, y);			
 		}
 	}
 
@@ -75,5 +88,17 @@ public class MainView {
 		});
 
 		mainFrame.setVisible(true);
+	}
+	
+	private void cellClicked(int x, int y) {
+		JButton cellButton = fieldArray[x][y];
+		if (cellButton.getBackground() == Color.GREEN) {
+			cellButton.setBackground(Color.WHITE);
+			gameController.changeField(x, y, 0);
+		} else {
+			cellButton.setBackground(Color.GREEN);
+			gameController.changeField(x, y, 1);
+		}
+		cellButton.setOpaque(true);
 	}
 }
