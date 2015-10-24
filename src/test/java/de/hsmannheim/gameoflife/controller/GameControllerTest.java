@@ -29,12 +29,87 @@ public class GameControllerTest {
     *
     */
     @Test
-    public void testGenerateGameField()  {
+    public void testGenerateDefaultGameField()  {
         GameController controller = new GameController();
         controller.generateGameField();
 
         Assert.assertNotNull(controller.getField());
     }
+
+
+    @Test
+    public void testGenerateSquareGameField()  {
+        GameController controller = new GameController();
+        controller.generateGameField(3);
+
+        Assert.assertNotNull(controller.getField());
+    }
+
+    @Test
+    public void testGenerateAnyGameField()  {
+        GameController controller = new GameController();
+        controller.generateGameField(3,7);
+
+        Assert.assertNotNull(controller.getField());
+    }
+
+    @Test
+    public void testGenerateRandomGameField() {
+        GameController controller = new GameController();
+        controller.generateRandomGameField();
+
+        int checkedFields = 0;
+
+        for(int[] x : controller.getField().getFieldData()){
+            for (int value : x){
+                if (value == 1) {
+                    checkedFields++;
+                }
+            }
+        }
+
+        Assert.assertEquals(8, checkedFields);
+
+    }
+
+    @Test
+    public void testGenerateRandomSquareGameField() {
+        GameController controller = new GameController();
+        controller.generateRandomGameField(5);
+
+        int checkedFields = 0;
+
+        for(int[] x : controller.getField().getFieldData()){
+            for (int value : x){
+                if (value == 1) {
+                    checkedFields++;
+                }
+            }
+        }
+
+        Assert.assertEquals(2, checkedFields);
+    }
+
+    @Test
+    public void testGenerateRandomAnyGameField() {
+        GameController controller = new GameController();
+        controller.generateRandomGameField(5, 8);
+
+        int checkedFields = 0;
+
+        for(int[] x : controller.getField().getFieldData()){
+            for (int value : x){
+                if (value == 1) {
+                    checkedFields++;
+                }
+            }
+        }
+
+        Assert.assertEquals(4, checkedFields);
+    }
+
+
+
 
     @Test
     public void testChangeFieldCorrectChangingTo1() {
@@ -54,6 +129,7 @@ public class GameControllerTest {
         Assert.assertEquals(0, controller.getField().getFieldData()[3][3]);
     }
 
+
     @Test
     public void testChangeFieldIndexOutOfBounds() {
         GameController controller = new GameController();
@@ -68,14 +144,19 @@ public class GameControllerTest {
 
     }
 
-    /**
-    *
-    * Method: updateField()
-    *
-    */
     @Test
-    public void testUpdateField() throws Exception {
-         //TODO: Test goes here...
+    public void testStartAndStopTheGame() throws InterruptedException {
+        GameController controller = new GameController();
+        controller.generateRandomGameField();
+
+        controller.startGame();
+
+        Assert.assertTrue(controller.automatedGame.isAlive());
+
+        controller.stopGame();
+
+        Assert.assertTrue(controller.automatedGame.isInterrupted());
+
     }
 
 

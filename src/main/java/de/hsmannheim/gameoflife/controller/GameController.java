@@ -1,6 +1,7 @@
 package de.hsmannheim.gameoflife.controller;
 
 import de.hsmannheim.gameoflife.model.GridField;
+import sun.awt.windows.ThemeReader;
 
 import java.util.Random;
 
@@ -10,6 +11,30 @@ import java.util.Random;
 public class GameController {
 
     protected GridField field;
+
+    protected Thread automatedGame;
+
+    public void startGame() {
+        if(automatedGame == null) {
+            automatedGame = new Thread() {
+                @Override
+                public void run() {
+                    while (!super.isInterrupted()) {
+                        doNextStep();
+                    }
+                }
+            };
+        }
+
+        automatedGame.start();
+    }
+
+    public void stopGame() {
+        if (automatedGame != null) {
+            automatedGame.interrupt();
+        }
+
+    }
 
     public GridField generateGameField() {
         field = new GridField();
