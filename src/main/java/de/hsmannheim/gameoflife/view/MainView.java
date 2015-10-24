@@ -95,6 +95,16 @@ public class MainView implements Observer {
 			}
 		});
 		buttonPanel.add(startStopButton);
+		JButton nextButton = new JButton("Next");
+		nextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!isRunning)
+					gameController.doNextSingleStep();
+			}
+		});
+		buttonPanel.add(nextButton);
+		
 		mainFrame = new JFrame("Game of Life");
 		mainFrame.setSize(600, 600);// verhältniss von width/heigth
 		gridPanel = new JPanel();
