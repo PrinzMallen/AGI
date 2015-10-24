@@ -41,6 +41,7 @@ public class GameController extends Observable {
     public void stopGame() {
         if (automatedGame != null) {
             automatedGame.interrupt();
+            automatedGame = null;
         }
 
     }
