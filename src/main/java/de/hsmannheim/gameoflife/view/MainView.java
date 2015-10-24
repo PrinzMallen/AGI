@@ -13,9 +13,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,7 +29,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class MainView {
+public class MainView implements Observer {
 	private JFrame mainFrame;
 	private JButton[][] fieldArray;
 	private JButton startStopButton;
@@ -83,12 +84,7 @@ public class MainView {
 		startStopButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				isRunning = !isRunning;
-				if (isRunning) {
-					startStopButton.setText("Stopp");
-				} else {
-					startStopButton.setText("Start");
-				}
+				startStopClicked();
 			}
 		});
 		buttonPanel.add(startStopButton);
@@ -122,6 +118,21 @@ public class MainView {
 			gameController.changeField(x, y, 1);
 		}
 		cellButton.setOpaque(true);
+	}
+	
+	private void startStopClicked() {
+		isRunning = !isRunning;
+		if (isRunning) {
+			gameController.startGame();
+			startStopButton.setText("Stopp");
+		} else {
+			gameController.stopGame();
+			startStopButton.setText("Start");
+		}
+	}
+	
+	private void startNewGameClicked() {
+		gameController.generateGameField();
 	}
 
 	private void createMenuBar() {
@@ -178,5 +189,11 @@ public class MainView {
 		JMenuItem eMenuItem = new JMenuItem(title);
 		eMenuItem.addActionListener(action);
 		return eMenuItem;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

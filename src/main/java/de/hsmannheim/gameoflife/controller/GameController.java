@@ -5,13 +5,14 @@ import sun.awt.windows.ThemeReader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
 /**
  * Created by Dennis, Alex on 24.10.2015.
  */
-public class GameController {
+public class GameController extends Observable {
 
     protected GridField field;
 
@@ -100,7 +101,7 @@ public class GameController {
 
     private void notifyObserver() {
         for (Observer obs : observers) {
-            obs.notify();
+            obs.update(this, null);
         }
     }
 
