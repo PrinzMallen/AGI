@@ -132,6 +132,7 @@ public class GameController extends Observable {
     public GridField doNextSingleStep(){
         if (field != null) {
             field.setFieldData(GrowthLogic.createNextGeneration(field.getFieldData()));
+            notifyObserver();
             return field;
         }
         return null;
