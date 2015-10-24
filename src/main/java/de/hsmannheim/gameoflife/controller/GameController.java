@@ -148,11 +148,8 @@ public class GameController extends Observable {
     }
 
     private boolean checkIfFieldDataExists(int x, int y) {
-        if (x >= 0 && y >= 0) {
-            return x < field.getFieldData().length && y < field.getFieldData()[x].length;
-        }
+        return x >= 0 && y >= 0 && x < field.getFieldData().length && y < field.getFieldData()[x].length;
 
-        return false;
     }
 
 
