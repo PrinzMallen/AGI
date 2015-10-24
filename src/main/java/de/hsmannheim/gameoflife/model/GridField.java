@@ -14,7 +14,11 @@ public class GridField {
     }
 
     public GridField (int size) {
-        fieldData = new int[size][size];
+        this(size, size);
+    }
+
+    public GridField(int xSize, int ySize) {
+        fieldData = new int[xSize][ySize];
     }
 
     public void setFieldData(int[][] fieldData) {
