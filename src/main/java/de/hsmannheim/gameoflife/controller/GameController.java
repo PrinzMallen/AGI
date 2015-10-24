@@ -29,7 +29,7 @@ public class GameController extends Observable {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            // Ignore
                         }
                         doNextIterativeStep();
                     }
@@ -117,6 +117,7 @@ public class GameController extends Observable {
                 numberOfGeneratedData--;
             }
         }
+        notifyObserver();
     }
 
     private void doNextIterativeStep() {
