@@ -5,19 +5,23 @@ package de.hsmannheim.gameoflife.model;
  */
 public class GridField {
 
-    private int[][] field;
+    private int[][] fieldData;
 
     private static final int DEFAULT_SIZE = 9;
 
     public GridField () {
-        field = new int[DEFAULT_SIZE][DEFAULT_SIZE];
+        this(DEFAULT_SIZE);
     }
 
-    public void setField(int[][] field) {
-        this.field = field;
+    public GridField (int size) {
+        fieldData = new int[size][size];
     }
 
-    public int[][] getField() {
-        return field;
+    public void setFieldData(int[][] fieldData) {
+        this.fieldData = fieldData;
+    }
+
+    public int[][] getFieldData() {
+        return fieldData;
     }
 }
