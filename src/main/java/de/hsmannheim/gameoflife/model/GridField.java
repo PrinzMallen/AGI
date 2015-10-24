@@ -32,27 +32,61 @@ public class GridField {
     }
 
     public void save(String path){
+        FileOutputStream fOut = null;
+        ObjectOutputStream oOut = null;
         try {
-            FileOutputStream fOut=new FileOutputStream(path);
-            ObjectOutputStream oOut=new ObjectOutputStream(fOut);
+            fOut=new FileOutputStream(path);
+            oOut=new ObjectOutputStream(fOut);
             oOut.writeObject(fieldData);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (fOut != null) {
+                try {
+                    fOut.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (oOut != null) {
+                try {
+                    oOut.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void load(String path){
+        FileInputStream fIn = null;
+        ObjectInputStream oIn =  null;
         try {
-            FileInputStream fIn=new FileInputStream(path);
-            ObjectInputStream oIn=new ObjectInputStream(fIn);
+            fIn=new FileInputStream(path);
+            oIn=new ObjectInputStream(fIn);
             Object obj =oIn.readObject();
             if(obj instanceof int[][]){
                 fieldData= (int[][]) obj;
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (fIn != null) {
+                try {
+                    fIn.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (oIn != null) {
+                try {
+                    oIn.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
