@@ -1,4 +1,4 @@
-package de.hsmannheim.gameoflife;
+package de.hsmannheim.gameoflife.controller;
 
 import de.hsmannheim.gameoflife.controller.GameController;
 import junit.framework.Assert;

@@ -1,4 +1,4 @@
-package de.hsmannheim.gameoflife;
+package de.hsmannheim.gameoflife.model;
 
 import de.hsmannheim.gameoflife.model.GridField;
 import junit.framework.Assert;
