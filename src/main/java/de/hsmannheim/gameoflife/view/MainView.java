@@ -17,18 +17,23 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import de.hsmannheim.gameoflife.controller.GameController;
 import de.hsmannheim.gameoflife.model.GridField;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 
 public class MainView implements Observer {
 	private JFrame mainFrame;
@@ -37,6 +42,7 @@ public class MainView implements Observer {
 	private static final int SIZEOFCELL = 10;
 	private GameController gameController;
 	private boolean isRunning = false;
+	private JPanel gridPanel;
 
 	public MainView(GameController gameController) {
 		this.gameController = gameController;
@@ -53,7 +59,7 @@ public class MainView implements Observer {
 		for (int y = 0; y < widthOfField; y++) {
 			for (int x = 0; x < heightOfField; x++) {
 				JButton tempButton = new JButton();
-				tempButton.setSize(SIZEOFCELL, SIZEOFCELL);
+//				tempButton.setSize(SIZEOFCELL, SIZEOFCELL);
 				tempButton.addActionListener(new CellActionListener(x, y));
 				tempButton.setBackground(Color.WHITE);
 				tempButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
@@ -91,12 +97,8 @@ public class MainView implements Observer {
 		buttonPanel.add(startStopButton);
 		mainFrame = new JFrame("Game of Life");
 		mainFrame.setSize(600, 600);// verhältniss von width/heigth
-		JPanel gridPanel = new JPanel(new GridLayout(widthOfField, heightOfField));
-		for (int i = 0; i < fieldArray.length; i++) {
-			for (int j = 0; j < fieldArray[i].length; j++) {
-				gridPanel.add(fieldArray[i][j]);
-			}
-		}
+		gridPanel = new JPanel();
+		initGrid(widthOfField, heightOfField);
 
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
@@ -107,6 +109,19 @@ public class MainView implements Observer {
 		contentPanel.add(buttonPanel, BorderLayout.PAGE_END);
 		mainFrame.setContentPane(contentPanel);
 		mainFrame.setVisible(true);
+	}
+
+	private void initGrid(int widthOfField, int heightOfField) {
+		gridPanel.setLayout(new GridLayout(widthOfField, heightOfField));
+		gridPanel.removeAll();
+		for (int i = 0; i < fieldArray.length; i++) {
+			for (int j = 0; j < fieldArray[i].length; j++) {
+				gridPanel.add(fieldArray[i][j]);
+			}
+		}
+		gridPanel.repaint();
+
+		mainFrame.revalidate();
 	}
 
 	private void cellClicked(int x, int y) {
@@ -143,9 +158,46 @@ public class MainView implements Observer {
 	}
 
 	private void startNewGameClicked() {
+		createDialog();
 		gameController.stopGame();
 		isRunning = false;
-		gameController.generateRandomGameField();
+	}
+
+	private void createDialog() {
+		final JDialog newGameDialog = new JDialog(mainFrame, "Neues Spiel", true);
+		JPanel centerPanel = new JPanel(new GridLayout(3, 2));
+		centerPanel.add(new JLabel("Reihen"));
+		final JTextField rowTF = new JTextField();
+		centerPanel.add(rowTF);
+		centerPanel.add(new JLabel("Spalten"));
+		final JTextField collTF = new JTextField();
+		centerPanel.add(collTF);
+		centerPanel.add(new JLabel("Random"));
+		final JCheckBox randomeCB = new JCheckBox();
+		centerPanel.add(randomeCB);
+
+		newGameDialog.setSize(200, 200);
+		newGameDialog.setLayout(new BorderLayout());
+		JButton okButton = new JButton("Ok");
+		okButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int x = Integer.valueOf(rowTF.getText());
+				int y = Integer.valueOf(collTF.getText());
+				setFieldSize(x, y);
+				initGrid(x, y);
+				if (randomeCB.isSelected()) {
+					gameController.generateRandomGameField(x, y);
+				}else{
+					gameController.generateGameField(x, y);
+				}
+				newGameDialog.setVisible(false);
+			}
+		});
+		newGameDialog.add(centerPanel, BorderLayout.CENTER);
+		newGameDialog.add(okButton, BorderLayout.PAGE_END);
+		newGameDialog.setVisible(true);
 	}
 
 	private void createMenuBar() {
@@ -198,7 +250,6 @@ public class MainView implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		GridField gridField = (GridField) arg;
-		System.out.println("update");
 		for (int y = 0; y < gridField.getFieldData().length; y++) {
 			for (int x = 0; x < gridField.getFieldData()[0].length; x++) {
 				int cellValue = gridField.getFieldData()[x][y];
