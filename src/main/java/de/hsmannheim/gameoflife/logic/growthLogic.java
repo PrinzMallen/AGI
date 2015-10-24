@@ -4,7 +4,7 @@ package de.hsmannheim.gameoflife.logic;
  *
  * @author Pat
  */
-public class growthLogic {
+public class GrowthLogic {
 
     public static int countNeighbours(int[][] array, int x, int y) {
 
@@ -116,8 +116,8 @@ public class growthLogic {
     public static int[][] createNextGeneration(int[][] oldGrid) {
         int[][] newGrid = new int[oldGrid.length][oldGrid[0].length];
         
-            for(int i = 0; i <= oldGrid.length; i++){
-                for(int j = 0; j <= oldGrid[0].length;j++){
+            for(int i = 0; i < oldGrid.length; i++){
+                for(int j = 0; j < oldGrid[0].length;j++){
                     
                     int neighbours = countNeighbours(oldGrid,i,j);
                     
