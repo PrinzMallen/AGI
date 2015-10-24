@@ -1,10 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package de.hsmannheim.gameoflife.logic;
 
+import de.hsmannheim.gameoflife.model.GridField;
+import de.hsmannheim.gameoflife.logic.growthLogic;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,12 +15,16 @@ import static org.junit.Assert.*;
  * @author Pat
  */
 public class growthLogicTest {
+    int[][] testgridCenter ;
+    int[][] testgridCorners;
+    int[][] testgridEdges ;
     
     public growthLogicTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+ 
     }
     
     @AfterClass
@@ -31,6 +33,9 @@ public class growthLogicTest {
     
     @Before
     public void setUp() {
+        testgridCenter = new int[9][9];
+        testgridCorners = new int[9][9];
+        testgridEdges = new int[9][9];
     }
     
     @After
@@ -38,9 +43,39 @@ public class growthLogicTest {
     }
 
     @Test
-    public void testSomeMethod() {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testField() {
+        
+        //int[][] testarray = new int[9][9];
+        //testarray = grid1.getField();
+        
+        //assertEquals(testarray[4][4], 1);
+    }
+    
+    @Test
+    public void testCountNeighboursInCenter() {
+        testgridCenter[4][4]=1;
+      
+        assertEquals(growthLogic.countNeighbours(testgridCenter,4,4),0);
+        assertEquals(growthLogic.countNeighbours(testgridCenter,5,5),1);
+    }
+    
+     @Test
+    public void testCountNeighboursInCorner() {
+        testgridCorners[0][0]=1;
+        testgridCorners[0][1]=1;
+        testgridCorners[1][0]=1;
+        
+        testgridCorners[testgridCorners.length-1][testgridCorners[0].length-1]=1;
+
+        assertEquals(growthLogic.countNeighbours(testgridCorners,0,0),3);
+        assertEquals(growthLogic.countNeighbours(testgridCorners,0,1),2);
+        assertEquals(growthLogic.countNeighbours(testgridCorners,1,0),2);
+
+    }
+     @Test
+    public void testCountNeighboursInEdges() {
+        testgridEdges[4][4]=1;
+
     }
     
 }
