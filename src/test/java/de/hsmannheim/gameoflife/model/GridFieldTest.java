@@ -33,11 +33,19 @@ public class GridFieldTest {
 
 
     @Test
-    public void testOtherCunstructor() {
+    public void testOtherCunstructorSquareGrid() {
         GridField defaultField = new GridField(3);
 
         Assert.assertEquals(3, defaultField.getFieldData().length);
         Assert.assertEquals(3, defaultField.getFieldData()[0].length);
+    }
+
+    @Test
+    public void testOtherCunstructorXAndYDiffrent() {
+        GridField defaultField = new GridField(3, 5);
+
+        Assert.assertEquals(3, defaultField.getFieldData().length);
+        Assert.assertEquals(5, defaultField.getFieldData()[0].length);
     }
 
 
