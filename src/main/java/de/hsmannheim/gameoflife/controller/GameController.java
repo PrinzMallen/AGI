@@ -1,13 +1,9 @@
 package de.hsmannheim.gameoflife.controller;
 
-import de.hsmannheim.gameoflife.logic.growthLogic;
+import de.hsmannheim.gameoflife.logic.GrowthLogic;
 import de.hsmannheim.gameoflife.model.GridField;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Random;
+import java.util.*;
 
 /**
  *
@@ -129,14 +125,14 @@ public class GameController extends Observable {
 
     private void doNextIterativeStep() {
         if (field != null) {
-            field.setFieldData(growthLogic.createNextGeneration(field.getFieldData()));
+            field.setFieldData(GrowthLogic.createNextGeneration(field.getFieldData()));
             notifyObserver();
         }
     }
 
     public GridField doNextSingleStep(){
         if (field != null) {
-            field.setFieldData(growthLogic.createNextGeneration(field.getFieldData()));
+            field.setFieldData(GrowthLogic.createNextGeneration(field.getFieldData()));
             return field;
         }
         return null;
