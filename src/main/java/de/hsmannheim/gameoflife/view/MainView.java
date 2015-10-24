@@ -112,14 +112,21 @@ public class MainView implements Observer {
 	private void cellClicked(int x, int y) {
 		JButton cellButton = fieldArray[x][y];
 		if (cellButton.getBackground() == Color.GREEN) {
-			cellButton.setBackground(Color.WHITE);
+			updateCellColor(x, y, 0);
 			gameController.changeField(x, y, 0);
 		} else {
-			cellButton.setBackground(Color.GREEN);
+			updateCellColor(x, y, 1);
 			gameController.changeField(x, y, 1);
 		}
 		cellButton.setOpaque(true);
 	}
+	 private void updateCellColor(int x, int y, int value) {
+			if (value == 0) {
+				fieldArray[x][y].setBackground(Color.WHITE);
+			} else {
+				fieldArray[x][y].setBackground(Color.GREEN);
+			}
+	 }
 	
 	private void startStopClicked() {
 		isRunning = !isRunning;
@@ -133,7 +140,7 @@ public class MainView implements Observer {
 	}
 	
 	private void startNewGameClicked() {
-		gameController.generateGameField();
+		gameController.generateRandomGameField();
 	}
 
 	private void createMenuBar() {
@@ -147,8 +154,7 @@ public class MainView implements Observer {
 		menu.add(genMenuItem("Start", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				startNewGameClicked();
 			}
 		}));
 
@@ -191,13 +197,16 @@ public class MainView implements Observer {
 		eMenuItem.addActionListener(action);
 		return eMenuItem;
 	}
+	
+	
 
 	@Override
 	public void update(Observable o, Object arg) {
 		GridField gridField = (GridField)arg;
-		for (int x = 0; x < gridField.getFieldData().length; x++) {
-			for (int y = 0; y < fieldArray.length; y++) {
-				
+		for (int y = 0; y < gridField.getFieldData().length; y++) {
+			for (int x = 0; x < gridField.getFieldData()[0].length; x++) {
+				int cellValue = gridField.getFieldData()[x][y];
+				updateCellColor(x, y, cellValue);
 			}
 		}
 	}
