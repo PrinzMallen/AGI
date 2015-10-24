@@ -25,7 +25,7 @@ public class GameController extends Observable {
             public void run() {
                 while (!interrupted) {
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         // Ignore
                     }

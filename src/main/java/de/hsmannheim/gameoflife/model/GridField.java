@@ -9,7 +9,7 @@ public class GridField {
 
     private int[][] fieldData;
 
-    private static final int DEFAULT_SIZE = 9;
+    private static final int DEFAULT_SIZE = 100;
 
     public GridField () {
         this(DEFAULT_SIZE);
