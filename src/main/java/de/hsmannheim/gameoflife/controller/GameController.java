@@ -25,12 +25,11 @@ public class GameController extends Observable {
             public void run() {
                 while (!interrupted) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         // Ignore
                     }
                     doNextIterativeStep();
-                    System.out.println(this.getId());
                 }
             }
 
@@ -110,7 +109,7 @@ public class GameController extends Observable {
 
     private void randomizeFieldData() {
         int numberOfFields = field.getFieldData().length * field.getFieldData()[0].length;
-        int numberOfGeneratedData = (int) (numberOfFields * 0.1);
+        int numberOfGeneratedData = (int) (numberOfFields * 0.3);
         Random random = new Random();
         while (numberOfGeneratedData > 0) {
             int x = random.nextInt(field.getFieldData().length - 1);

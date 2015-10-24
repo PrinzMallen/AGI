@@ -58,17 +58,9 @@ public class GameControllerTest {
         GameController controller = new GameController();
         controller.generateRandomGameField();
 
-        int checkedFields = 0;
+        int checkedFields = countCheckedFields(controller);
 
-        for(int[] x : controller.getField().getFieldData()){
-            for (int value : x){
-                if (value == 1) {
-                    checkedFields++;
-                }
-            }
-        }
-
-        Assert.assertEquals(8, checkedFields);
+        Assert.assertEquals(24, checkedFields);
 
     }
 
@@ -77,17 +69,9 @@ public class GameControllerTest {
         GameController controller = new GameController();
         controller.generateRandomGameField(5);
 
-        int checkedFields = 0;
+        int checkedFields = countCheckedFields(controller);
 
-        for(int[] x : controller.getField().getFieldData()){
-            for (int value : x){
-                if (value == 1) {
-                    checkedFields++;
-                }
-            }
-        }
-
-        Assert.assertEquals(2, checkedFields);
+        Assert.assertEquals(7, checkedFields);
     }
 
     @Test
@@ -95,6 +79,12 @@ public class GameControllerTest {
         GameController controller = new GameController();
         controller.generateRandomGameField(5, 8);
 
+        int checkedFields = countCheckedFields(controller);
+
+        Assert.assertEquals(12, checkedFields);
+    }
+
+    private int countCheckedFields(GameController controller) {
         int checkedFields = 0;
 
         for(int[] x : controller.getField().getFieldData()){
@@ -104,11 +94,8 @@ public class GameControllerTest {
                 }
             }
         }
-
-        Assert.assertEquals(4, checkedFields);
+        return checkedFields;
     }
-
-
 
 
     @Test
