@@ -3,6 +3,9 @@ package de.hsmannheim.gameoflife.controller;
 import de.hsmannheim.gameoflife.model.GridField;
 import sun.awt.windows.ThemeReader;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observer;
 import java.util.Random;
 
 /**
@@ -14,13 +17,20 @@ public class GameController {
 
     protected Thread automatedGame;
 
+    private List<Observer> observers = new ArrayList<>();
+
     public void startGame() {
-        if(automatedGame == null) {
+        if (automatedGame == null) {
             automatedGame = new Thread() {
                 @Override
                 public void run() {
                     while (!super.isInterrupted()) {
-                        doNextStep();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        doNextIterativeStep();
                     }
                 }
             };
@@ -36,6 +46,14 @@ public class GameController {
 
     }
 
+    public void saveGame(String path){
+        field.save(path);
+    }
+
+    public void loadGame(String path){
+        field.load(path);
+    }
+
     public GridField generateGameField() {
         field = new GridField();
         return field;
@@ -49,6 +67,10 @@ public class GameController {
     public GridField generateGameField(int xSize, int ySize) {
         field = new GridField(xSize, ySize);
         return field;
+    }
+
+    public void addObserver(Observer obs) {
+        observers.add(obs);
     }
 
     public GridField generateRandomGameField() {
@@ -76,28 +98,42 @@ public class GameController {
         return field;
     }
 
+    private void notifyObserver() {
+        for (Observer obs : observers) {
+            obs.notify();
+        }
+    }
+
     private void randomizeFieldData() {
         int numberOfFields = field.getFieldData().length * field.getFieldData()[0].length;
         int numberOfGeneratedData = (int) (numberOfFields * 0.1);
-        Random random =new Random();
-        while(numberOfGeneratedData>0){
-            int x=random.nextInt(field.getFieldData().length-1);
-            int y=random.nextInt(field.getFieldData()[0].length-1);
-            if(field.getFieldData()[x][y]!=1){
-                field.getFieldData()[x][y]=1;
+        Random random = new Random();
+        while (numberOfGeneratedData > 0) {
+            int x = random.nextInt(field.getFieldData().length - 1);
+            int y = random.nextInt(field.getFieldData()[0].length - 1);
+            if (field.getFieldData()[x][y] != 1) {
+                field.getFieldData()[x][y] = 1;
                 numberOfGeneratedData--;
             }
         }
     }
 
-    public GridField doNextStep() {
+    private void doNextIterativeStep() {
+        if (field != null) {
+            // TODO: field = Logik.generateNextStep();
+            notifyObserver();
+        }
+    }
+
+    public GridField doNextSingleStep(){
         if (field != null) {
             // TODO: field = Logik.generateNextStep();
             return field;
         }
-
         return null;
+
     }
+
 
     public GridField changeField(int x, int y, int value) {
         if (field != null && (value == 0 || value == 1)) {
