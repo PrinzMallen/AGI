@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import de.hsmannheim.gameoflife.controller.GameController;
+import de.hsmannheim.gameoflife.model.GridField;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -193,7 +194,11 @@ public class MainView implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		GridField gridField = (GridField)arg;
+		for (int x = 0; x < gridField.getFieldData().length; x++) {
+			for (int y = 0; y < fieldArray.length; y++) {
+				
+			}
+		}
 	}
 }

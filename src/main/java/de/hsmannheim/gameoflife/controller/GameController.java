@@ -101,7 +101,7 @@ public class GameController extends Observable {
 
     private void notifyObserver() {
         for (Observer obs : observers) {
-            obs.update(this, null);
+            obs.update(this, field);
         }
     }
 
