@@ -1,7 +1,6 @@
 package de.hsmannheim.gameoflife.controller;
 
 import de.hsmannheim.gameoflife.model.GridField;
-import sun.awt.windows.ThemeReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Observer;
 import java.util.Random;
 
 /**
+ *
  * Created by Dennis, Alex on 24.10.2015.
  */
 public class GameController extends Observable {
@@ -22,16 +22,24 @@ public class GameController extends Observable {
 
     public void startGame() {
         automatedGame = new Thread() {
+            boolean interrupted = false;
+
             @Override
             public void run() {
-                while (!super.isInterrupted()) {
+                while (!interrupted) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         // Ignore
                     }
                     doNextIterativeStep();
+                    System.out.println(this.getId());
                 }
+            }
+
+            @Override
+            public void interrupt() {
+                interrupted = true;
             }
         };
 
@@ -43,7 +51,6 @@ public class GameController extends Observable {
             automatedGame.interrupt();
             automatedGame = null;
         }
-
     }
 
     public void saveGame(String path){
@@ -121,14 +128,14 @@ public class GameController extends Observable {
 
     private void doNextIterativeStep() {
         if (field != null) {
-            // TODO: field = Logik.generateNextStep();
+    //        field.setFieldData(GrowthLogic.createNextGeneration(field.getFieldData()));
             notifyObserver();
         }
     }
 
     public GridField doNextSingleStep(){
         if (field != null) {
-            // TODO: field = Logik.generateNextStep();
+      //      field.setFieldData(GrowthLogic.createNextGeneration(field.getFieldData()));
             return field;
         }
         return null;

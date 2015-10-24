@@ -134,6 +134,7 @@ public class GameControllerTest {
     public void testChangeFieldIndexOutOfBounds() {
         GameController controller = new GameController();
         controller.generateGameField();
+
         controller.changeField(10,3,1);
 
         controller.changeField(-1,3,1);
@@ -155,7 +156,7 @@ public class GameControllerTest {
 
         controller.stopGame();
 
-        Assert.assertTrue(controller.automatedGame.isInterrupted());
+        Assert.assertNull(controller.automatedGame);
 
     }
 
