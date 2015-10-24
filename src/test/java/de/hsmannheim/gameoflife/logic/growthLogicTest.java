@@ -53,8 +53,8 @@ public class growthLogicTest {
     public void testCountNeighboursInCenter() {
         testgridCenter[4][4]=1;
       
-        assertEquals(growthLogic.countNeighbours(testgridCenter, 4, 4),0);
-        assertEquals(growthLogic.countNeighbours(testgridCenter, 5, 5),1);
+        assertEquals(GrowthLogic.countNeighbours(testgridCenter, 4, 4),0);
+        assertEquals(GrowthLogic.countNeighbours(testgridCenter, 5, 5),1);
     }
     
      @Test
@@ -65,9 +65,9 @@ public class growthLogicTest {
         
         testgridCorners[testgridCorners.length-1][testgridCorners[0].length-1]=1;
 
-        assertEquals(growthLogic.countNeighbours(testgridCorners, 0, 0),3);
-        assertEquals(growthLogic.countNeighbours(testgridCorners, 0, 1),2);
-        assertEquals(growthLogic.countNeighbours(testgridCorners, 1, 0),2);
+        assertEquals(GrowthLogic.countNeighbours(testgridCorners, 0, 0),3);
+        assertEquals(GrowthLogic.countNeighbours(testgridCorners, 0, 1),2);
+        assertEquals(GrowthLogic.countNeighbours(testgridCorners, 1, 0),2);
 
     }
      @Test
