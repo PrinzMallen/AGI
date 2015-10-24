@@ -36,25 +36,30 @@ public class MainView {
 
 	private void setFieldSize(int widthOfField, int heightOfField) {
 		fieldArray = new JButton[widthOfField][heightOfField];
-		for (int i = 0; i < widthOfField; i++) {
-			for (int j = 0; j < heightOfField; j++) {
-				final JButton tempButton = new JButton();
+		for (int y = 0; y < widthOfField; y++) {
+			for (int x = 0; x < heightOfField; x++) {
+				JButton tempButton = new JButton();
 				tempButton.setSize(SIZEOFCELL, SIZEOFCELL);
-				tempButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (tempButton.getBackground() == Color.GREEN) {
-							tempButton.setBackground(Color.WHITE);
-						} else
-							tempButton.setBackground(Color.GREEN);
-						tempButton.setOpaque(true);
-					}
-				});
+				tempButton.addActionListener(new CellActionListener(x, y));
 				tempButton.setBackground(Color.WHITE);
 				tempButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 				tempButton.setOpaque(true);
-				fieldArray[i][j] = tempButton;
+				fieldArray[x][y] = tempButton;
 			}
+		}
+	}
+	
+	private class CellActionListener implements ActionListener {
+		private int x;
+		private int y;
+		public CellActionListener(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			cellClicked(x, y);			
 		}
 	}
 
@@ -75,5 +80,14 @@ public class MainView {
 		});
 
 		mainFrame.setVisible(true);
+	}
+	
+	private void cellClicked(int x, int y) {
+		JButton cellButton = fieldArray[x][y];
+		if (cellButton.getBackground() == Color.GREEN) {
+			cellButton.setBackground(Color.WHITE);
+		} else
+			cellButton.setBackground(Color.GREEN);
+		cellButton.setOpaque(true);
 	}
 }
